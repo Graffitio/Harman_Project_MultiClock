@@ -39,14 +39,17 @@ module Multi_function_clock_top(
 //  wire [3:0] btn_watch, btn_stp, btn_cook;
 //  wire reset_watch, reset_stp, reset_cook;
   wire [15:0] value;
-//  assign btn_watch = btn_watch_buf;
-//  assign btn_stp = btn_stp_buf;
-//  assign btn_cook = btn_cook_buf;
+  // 1bit짜리는 자동적으로 wire가 연결되기 때문에 굳이 assign으로 안 만들어줘도 된다.
+  // 하지만, 1bit 이상의 값들은 1bit만 짤려서 연결되므로 꼭 wire로 따로 연결해줘야 한다.
+  assign btn_watch = btn_watch_buf;
+  assign btn_stp = btn_stp_buf;
+  assign btn_cook = btn_cook_buf;
 //  assign value = value_buf;
   
   wire [15:0] value_watch, value_stp_watch, value_cook;
-  assign value = (mode==0) ? value_watch : (mode == 1) ? value_stp_watch : (mode == 2) ? value_cook : 16'b1111_1111_1111_1111;
+  assign value = (mode == 0) ? value_watch : (mode == 1) ? value_stp_watch : (mode == 2) ? value_cook : 16'b1111_1111_1111_1111;
   
+  // 이렇게 각각 버튼을 나눠줘야 백그라운드에서 다른 기능이 동작하지 않는다.
   always @(posedge clk) begin
     case(mode)
       0 : begin // Watch

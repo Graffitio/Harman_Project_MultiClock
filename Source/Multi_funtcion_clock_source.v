@@ -408,11 +408,11 @@ module counter_dec_100_proj(
         end
         else if(clk_time) begin
             if(dec1 >= 9) begin 
-                dec1 <= 0;
+                dec1 = 0;
                 if(dec10 >= 9) dec10 = 0;
-                else dec10 <= dec10 + 1;
+                else dec10 = dec10 + 1;
             end
-            else dec1 <= dec1 + 1;
+            else dec1 = dec1 + 1;
         end
     end
 endmodule
